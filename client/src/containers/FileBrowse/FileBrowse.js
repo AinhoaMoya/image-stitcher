@@ -49,7 +49,7 @@ class FileBrowse extends Component {
     }
   }
 
-  async inputHandler(e) {
+  inputHandler(e) {
 
     let images = e.target.files;
 

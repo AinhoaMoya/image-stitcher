@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import * as imageActions from '../../actions/imageActions';
 import { bindActionCreators } from 'redux';
 import getPreviewImages from '../../helpers/getPreviewImages';
-import getImgFormData from '../../helpers/getImgFormData';
 
 function mapStateToProps(state) {
   state = state.images;
@@ -41,36 +40,44 @@ class FileDrop extends Component {
     this.setState({dropzoneActive: false})
   }
 
-  handleImages(images) {
-    let previewImages = getPreviewImages(images);
-    let formData = getImgFormData(images);
+  static getDerivedStateFromProps(nextProps, prevState) {
+    let images = nextProps.images;
+    if (nextProps.imgCounter === 4) {
+      let formData = new FormData();
 
-    axios.post('/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
+      for (var i = 0; i < images.length; i++) {
+        let image = images[i].imgObject;
+        formData.append(`droppedImage${i}`, image)
       }
-    })
-    .then((response) => {
-      console.log('Successfully uploaded image to server!');
-      this.props.imageActions.addImages(previewImages);
-      this.props.imageActions.setMergedImg(response.data.imgUrl);
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+
+      axios.post('/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then((response) => {
+        console.log('Successfully uploaded image to server!');
+        nextProps.imageActions.setMergedImg(response.data.imgUrl);
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
   }
 
-
-  uploadHandler(files) {
-    let previewImages = getPreviewImages(files);
+  dropHandler(files) {
     if (files.length > 4 || files.length > (4 - this.props.imgCounter)) {
       alert('There is a 4 images limit!')
-    } else if (files.length === 4 || files.length === (4 - this.props.imgCounter)) {
-      this.props.imageActions.increaseCounter(files.length);
-      this.handleImages(files);
     } else {
-      this.props.imageActions.addImages(previewImages);
-      this.props.imageActions.increaseCounter(files.length);
+      let props = this.props;
+      // TODO: REMOVE SETTIMEOUT HACK AND FIX
+      getPreviewImages(files, props).then((images) => {
+        setTimeout(function(){
+          images.map((image) => {
+            props.imageActions.addImages(image);
+          })
+        }, 1000);
+      })
     }
   }
 
@@ -83,7 +90,7 @@ class FileDrop extends Component {
           accept="image/*"
           onDragEnter={this.onDragEnter.bind(this)}
           onDragLeave={this.onDragLeave.bind(this)}
-          onDrop={this.uploadHandler.bind(this)}
+          onDrop={this.dropHandler.bind(this)}
         >
         <span>Drag and Drop up to 4 images here to upload</span>
         </Dropzone>
