@@ -8,10 +8,10 @@ export default function images(state = initialState, action) {
     switch (action.type) {
 
         case ADD_IMAGE:
-            updatedState = Object.assign({}, state);
-            updatedState.images = updatedState.images.concat(action.images);
-
-            return updatedState;
+            return {
+              images: [...state.images, action.image],
+              imgCounter: state.imgCounter + 1
+            }
 
         case INCREASE_COUNTER:
             updatedState = Object.assign({}, state)

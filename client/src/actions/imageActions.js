@@ -1,9 +1,9 @@
 import * as types from './actionTypes';
 
-export function addImages(images) {
+export function addImages(image) {
     return {
         type: types.ADD_IMAGE,
-        images: images
+        image: image
     }
 }
 
