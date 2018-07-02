@@ -25,21 +25,6 @@ function mapDispatchToProps(dispatch) {
 
 class FileDrop extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      dropzoneActive: false
-    }
-  }
-
-  onDragEnter() {
-    this.setState({dropzoneActive: true})
-  }
-
-  onDragLeave() {
-    this.setState({dropzoneActive: false})
-  }
-
   static getDerivedStateFromProps(nextProps, prevState) {
     let images = nextProps.images;
     if (nextProps.imgCounter === 4) {
@@ -85,12 +70,11 @@ class FileDrop extends Component {
     return (
       <div className="fileDrop">
         <Dropzone
-          className={"dropzone " + (this.state.dropzoneActive ? 'active' : 'inactive')}
+          className="dropzone"
           multiple={true}
           accept="image/*"
-          onDragEnter={this.onDragEnter.bind(this)}
-          onDragLeave={this.onDragLeave.bind(this)}
           onDrop={this.dropHandler.bind(this)}
+          activeClassName="active"
         >
         <span>Drag and Drop up to 4 images here to upload</span>
         </Dropzone>
