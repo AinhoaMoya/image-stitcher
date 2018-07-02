@@ -59,6 +59,7 @@ class FileBrowse extends Component {
       console.log('Successfully uploaded image to server!');
       this.props.imageActions.increaseCounter(images.length);
       this.props.imageActions.addImages(previewImages);
+      this.props.imageActions.setMergedImg(response.data.imgUrl);
     })
     .catch((error) => {
       console.log(error)
@@ -71,12 +72,12 @@ class FileBrowse extends Component {
     let inputImages = e.target.files;
 
     if (inputImages.length > 4 || inputImages.length > (4 - this.props.imgCounter)) {
+      e.target.value = null;
       alert('There is a 4 images limit!')
     } else if (inputImages.length === 4 || inputImages.length === (4 - this.props.imgCounter)) {
-      this.props.imageActions.toggleStatus();
       this.handleImages(inputImages);
     } else {
-      this.handleImages(inputImages);
+      console.log('Add more images!')
     }
   }
 

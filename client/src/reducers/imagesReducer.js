@@ -27,7 +27,7 @@ export default function images(state = initialState, action) {
 
         case SET_MERGEDIMG:
             updatedState = Object.assign({}, state)
-            updatedState.mergedImg = action.img;
+            updatedState.mergedImg = action.imgUrl;
             updatedState.isReady = true;
             return updatedState;
 

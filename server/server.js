@@ -10,7 +10,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }))
-    
+
 app.use(cors());
 
 app.use(fileUpload());
@@ -28,17 +28,16 @@ app.post('/upload', (req, res) => {
     mergeImg(images)
     .then((img) => {
         img.write('result.jpg', () => console.log('Image has been successfully merged'));
-        
+
         cloudinary.v2.uploader.unsigned_upload(
-            "result.jpg", 
-            "nwaybmkn", 
-            { cloud_name: "dqrlyqzr2" }, 
+            "result.jpg",
+            "nwaybmkn",
+            { cloud_name: "dqrlyqzr2" },
             function(error, result) {
                 if (error) {
                     console.log(error)
                 } else {
-                    console.log('Success!')
-                    console.log(result) 
+                    res.json({imgUrl: result.url})
                 }
             }
         );
@@ -47,8 +46,6 @@ app.post('/upload', (req, res) => {
     .catch((err) => {
         console.log(err);
     })
-
-    res.json({test: 'test'});
 });
 
 app.listen(3001);

@@ -3,7 +3,7 @@ import * as types from './actionTypes';
 export function addImages(images) {
     return {
         type: types.ADD_IMAGE,
-        images: images,
+        images: images
     }
 }
 
