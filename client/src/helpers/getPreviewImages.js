@@ -1,28 +1,32 @@
-function getPreviewImages(images) {
+function getPreviewImages(images, props) {
 
-  let previewImages = [];
+  return new Promise((resolve) => {
 
-  for (var i = 0; i < images.length; i++) {
-    let image = images[i];
+    let previewImages = [];
 
-    const reader = new FileReader();
+    for (var i = 0; i < images.length; i++) {
+      let image = images[i];
 
-    reader.onload = (function (currentImg) {
-        return function (e) {
-          let previewImage = {
-            imgName: image.name,
-            imgURI: e.target.result
-          }
-          previewImages.push(previewImage);
-        };
-    })(image);
+      const reader = new FileReader();
 
-    // Read in the image file as a data URL.
-    reader.readAsDataURL(image);
+      reader.onload = (function (currentImg) {
+          return function (e) {
+            let previewImage = {
+              imgName: image.name,
+              imgURI: e.target.result,
+              imgObject: image
+            }
+            previewImages.push(previewImage);
+          };
+      })(image);
 
-  }
+      // Read in the image file as a data URL.
+      reader.readAsDataURL(image);
+    }
+    resolve(previewImages);
 
-  return previewImages;
+  })
+
 }
 
 export default getPreviewImages;
