@@ -24,13 +24,10 @@ function mapDispatchToProps(dispatch) {
 
 class FileBrowse extends Component {
 
-
-  uploadHandler(e) {
+  handleImages(images) {
     let previewImages = [];
 
     let formData = new FormData();
-
-    let images = e.target.files;
 
     for (var i = 0; i < images.length; i++) {
       let image = images[i];
@@ -66,8 +63,25 @@ class FileBrowse extends Component {
     .catch((error) => {
       console.log(error)
     })
-
   }
+
+
+  uploadHandler(e) {
+
+    let inputImages = e.target.files;
+
+    if (inputImages.length > 4 || inputImages.length > (4 - this.props.imgCounter)) {
+      alert('There is a 4 images limit!')
+    } else if (inputImages.length === 4 || inputImages.length === (4 - this.props.imgCounter)) {
+      this.props.imageActions.toggleStatus();
+      this.handleImages(inputImages);
+    } else {
+      this.handleImages(inputImages);
+    }
+  }
+
+
+
 
   render() {
     return (
