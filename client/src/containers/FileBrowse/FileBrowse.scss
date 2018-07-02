@@ -1,3 +1,35 @@
 .fileBrowse {
+  width: 100%;
+  background-color: #1805e6;
+  height: 250px;
+  color: #c3e7e4;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  justify-content:         center;
+  -webkit-align-items: center;
+  align-items:         center;
+  form {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    text-align: center;
+    label {
+      font-family: 'Source Code Pro', monospace;
+      border-bottom: 1px solid #c3e7e4;
+      padding-bottom: 5px;
+      cursor: pointer;
 
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+    }
+    input {
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+  }
 }

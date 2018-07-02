@@ -81,16 +81,13 @@ class FileBrowse extends Component {
     }
   }
 
-
-
-
   render() {
     return (
       <div className="fileBrowse">
         <form>
-          <input type="file" multiple accept="image/*" onChange={this.uploadHandler.bind(this)} />
+          <label htmlFor="imageUploader">Choose up to 4 images</label>
+            <input type="file" name="imageUploader" multiple accept="image/*" size="60" onChange={this.uploadHandler.bind(this)} />
         </form>
-        <span>{this.props.imgCounter}</span>
       </div>
     );
   }

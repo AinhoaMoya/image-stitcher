@@ -3,6 +3,7 @@ import './FileUpload.css';
 
 import FileDrop from '../FileDrop/FileDrop';
 import FileBrowse from '../FileBrowse/FileBrowse';
+import PreviewUploads from '../PreviewUploads/PreviewUploads';
 
 class FileUpload extends Component {
   render() {
@@ -10,6 +11,7 @@ class FileUpload extends Component {
       <div className="fileUpload">
         <FileDrop />
         <FileBrowse />
+        <PreviewUploads />
       </div>
     );
   }
