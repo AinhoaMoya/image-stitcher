@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './FileDrop.css';
-
 import axios from 'axios';
 import Dropzone from 'react-dropzone'
-
 import { connect } from 'react-redux';
 import * as imageActions from '../../actions/imageActions';
 import { bindActionCreators } from 'redux';
+import getPreviewImages from '../../helpers/getPreviewImages';
+import getImgFormData from '../../helpers/getImgFormData';
 
 function mapStateToProps(state) {
   state = state.images;
@@ -41,32 +41,9 @@ class FileDrop extends Component {
     this.setState({dropzoneActive: false})
   }
 
-  //TODO: Clean up repeated code
   handleImages(images) {
-    let previewImages = [];
-
-    let formData = new FormData();
-
-    for (var i = 0; i < images.length; i++) {
-      let image = images[i];
-      formData.append(`droppedImage${i}`, image)
-
-      const reader = new FileReader();
-
-      reader.onload = (function (currentImg) {
-          return function (e) {
-            let previewImage = {
-              imgName: image.name,
-              imgURI: e.target.result
-            }
-            previewImages.push(previewImage);
-          };
-      })(image);
-
-      // Read in the image file as a data URL.
-      reader.readAsDataURL(image);
-
-    }
+    let previewImages = getPreviewImages(images);
+    let formData = getImgFormData(images);
 
     axios.post('/upload', formData, {
       headers: {
@@ -75,7 +52,6 @@ class FileDrop extends Component {
     })
     .then((response) => {
       console.log('Successfully uploaded image to server!');
-      this.props.imageActions.increaseCounter(images.length);
       this.props.imageActions.addImages(previewImages);
       this.props.imageActions.setMergedImg(response.data.imgUrl);
     })
@@ -86,13 +62,15 @@ class FileDrop extends Component {
 
 
   uploadHandler(files) {
-
+    let previewImages = getPreviewImages(files);
     if (files.length > 4 || files.length > (4 - this.props.imgCounter)) {
       alert('There is a 4 images limit!')
     } else if (files.length === 4 || files.length === (4 - this.props.imgCounter)) {
+      this.props.imageActions.increaseCounter(files.length);
       this.handleImages(files);
     } else {
-      console.log('Add more images!')
+      this.props.imageActions.addImages(previewImages);
+      this.props.imageActions.increaseCounter(files.length);
     }
   }
 

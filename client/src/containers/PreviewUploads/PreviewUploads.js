@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './PreviewUploads.css';
-
 import { connect } from 'react-redux';
 
 function mapStateToProps(state) {
@@ -17,7 +16,6 @@ class PreviewUploads extends Component {
   render() {
     return (
       <div className="previewUploads">
-        <span>You have uploaded {this.props.imgCounter} out of 4 images</span>
         <ul className="previewImages">
         {this.props.images.map((image, key) => {
           return (

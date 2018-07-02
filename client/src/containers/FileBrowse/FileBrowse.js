@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import './FileBrowse.css';
 import axios from 'axios';
-
 import { connect } from 'react-redux';
 import * as imageActions from '../../actions/imageActions';
 import { bindActionCreators } from 'redux';
+import getPreviewImages from '../../helpers/getPreviewImages';
+import getImgFormData from '../../helpers/getImgFormData';
 
 function mapStateToProps(state) {
   state = state.images;
@@ -25,30 +26,8 @@ function mapDispatchToProps(dispatch) {
 class FileBrowse extends Component {
 
   handleImages(images) {
-    let previewImages = [];
-
-    let formData = new FormData();
-
-    for (var i = 0; i < images.length; i++) {
-      let image = images[i];
-      formData.append(`browsedImage${i}`, image)
-
-      const reader = new FileReader();
-
-      reader.onload = (function (currentImg) {
-          return function (e) {
-            let previewImage = {
-              imgName: image.name,
-              imgURI: e.target.result
-            }
-            previewImages.push(previewImage);
-          };
-      })(image);
-
-      // Read in the image file as a data URL.
-      reader.readAsDataURL(image);
-
-    }
+    let previewImages = getPreviewImages(images);
+    let formData = getImgFormData(images);
 
     axios.post('/upload', formData, {
       headers: {
@@ -57,7 +36,6 @@ class FileBrowse extends Component {
     })
     .then((response) => {
       console.log('Successfully uploaded image to server!');
-      this.props.imageActions.increaseCounter(images.length);
       this.props.imageActions.addImages(previewImages);
       this.props.imageActions.setMergedImg(response.data.imgUrl);
     })
@@ -68,16 +46,18 @@ class FileBrowse extends Component {
 
 
   uploadHandler(e) {
-
     let inputImages = e.target.files;
-
+    console.log(inputImages)
+    let previewImages = getPreviewImages(inputImages);
     if (inputImages.length > 4 || inputImages.length > (4 - this.props.imgCounter)) {
       e.target.value = null;
       alert('There is a 4 images limit!')
     } else if (inputImages.length === 4 || inputImages.length === (4 - this.props.imgCounter)) {
+      this.props.imageActions.increaseCounter(inputImages.length);
       this.handleImages(inputImages);
     } else {
-      console.log('Add more images!')
+      this.props.imageActions.addImages(previewImages);
+      this.props.imageActions.increaseCounter(inputImages.length);
     }
   }
 

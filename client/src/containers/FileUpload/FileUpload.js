@@ -1,20 +1,33 @@
 import React, { Component } from 'react';
 import './FileUpload.css';
-
+import ProgressNotification from '../ProgressNotification/ProgressNotification';
 import FileDrop from '../FileDrop/FileDrop';
 import FileBrowse from '../FileBrowse/FileBrowse';
-import PreviewUploads from '../PreviewUploads/PreviewUploads';
+import { connect } from 'react-redux';
+
+function mapStateToProps(state) {
+  state = state.images;
+  return {
+    isReady: state.isReady,
+  };
+}
 
 class FileUpload extends Component {
   render() {
     return (
-      <div className="fileUpload">
-        <FileDrop />
-        <FileBrowse />
-        <PreviewUploads />
+      <div>
+        {!this.props.isReady &&
+          <div className="fileUpload">
+            <FileDrop />
+            <FileBrowse />
+            <ProgressNotification />
+          </div>
+        }
       </div>
     );
   }
 }
 
-export default FileUpload;
+export default connect(
+  mapStateToProps
+)(FileUpload);
