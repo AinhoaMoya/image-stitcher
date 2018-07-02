@@ -6,26 +6,35 @@ class FileBrowse extends Component {
 
   uploadHandler(e) {
 
-    console.log(e.target.files)
+    let formData = new FormData();
 
-    axios.post('/upload', {test: 'test'})
-      .then((response) => {
-        console.log('This is my response:')
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    let images = e.target.files;
+
+    for (var i = 0; i < images.length; i++) {
+      let image = images[i];
+      formData.append(`browsedImage${i}`, image)
+    }
+
+    axios.post('/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+
   }
 
   render() {
     return (
       <div className="fileBrowse">
-        <input type="file"
-                onChange={this.uploadHandler}
-                mutiple="true"
-                id="fileBrowser" name="fileBrowser"
-                accept="image/*" />
+        <form>
+          <input type="file" multiple accept="image/*" onChange={this.uploadHandler} />
+        </form>
       </div>
     );
   }
