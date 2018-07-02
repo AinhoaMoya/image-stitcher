@@ -16,13 +16,15 @@
     padding-bottom: 5px;
   }
   .previewImages {
+    width: 100%;
+    margin: 0;
     list-style: none;
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: row;
     flex-direction:         row;
-    -webkit-justify-content: center;
-    justify-content:         center;
+    -webkit-justify-content: space-around;
+    justify-content:         space-around;
     -webkit-align-items: center;
     align-items:         center;
     li {

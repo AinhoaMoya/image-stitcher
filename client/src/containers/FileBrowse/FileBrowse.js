@@ -24,6 +24,16 @@ function mapDispatchToProps(dispatch) {
 
 class FileBrowse extends Component {
 
+  constructor(props) {
+   super(props)
+   this.state = {
+     images: props.images,
+     imgCounter: props.imgCounter,
+     isReady: props.isReady,
+     mergedImg: props.mergedImg
+   };
+ }
+
   static getDerivedStateFromProps(nextProps, prevState){
     let images = nextProps.images;
     if (nextProps.imgCounter === 4) {
@@ -47,6 +57,7 @@ class FileBrowse extends Component {
         console.log(error)
       })
     }
+    return nextProps;
   }
 
   inputHandler(e) {
@@ -73,7 +84,7 @@ class FileBrowse extends Component {
     return (
       <div className="fileBrowse">
         <form>
-          <label htmlFor="imageUploader">Choose up to 4 images</label>
+          <label htmlFor="imageUploader">Browse and choose up to 4 images</label>
             <input type="file" name="imageUploader" multiple accept="image/*" size="60" onChange={this.inputHandler.bind(this)} />
         </form>
       </div>

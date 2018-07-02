@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import getPreviewImages from '../../helpers/getPreviewImages';
 
 function mapStateToProps(state) {
+
   state = state.images;
   return {
     images: state.images,
@@ -24,6 +25,16 @@ function mapDispatchToProps(dispatch) {
 }
 
 class FileDrop extends Component {
+
+  constructor(props) {
+   super(props)
+   this.state = {
+     images: props.images,
+     imgCounter: props.imgCounter,
+     isReady: props.isReady,
+     mergedImg: props.mergedImg
+   };
+ }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     let images = nextProps.images;
@@ -48,6 +59,7 @@ class FileDrop extends Component {
         console.log(error)
       })
     }
+    return nextProps;
   }
 
   dropHandler(files) {

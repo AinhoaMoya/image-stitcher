@@ -15,7 +15,7 @@ function mapStateToProps(state) {
 class FileUpload extends Component {
   render() {
     return (
-      <div>
+      <div className={this.props.isReady ? "inactive" : "active"}>
         {!this.props.isReady &&
           <div className="fileUpload">
             <FileDrop />

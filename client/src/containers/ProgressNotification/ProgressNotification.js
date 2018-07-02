@@ -13,7 +13,7 @@ class ProgressNotification extends Component {
   render() {
     return (
       <div className="progressNotification">
-        <span>You have uploaded {this.props.imgCounter} out of 4 images</span><br/>
+        <span>You have uploaded {this.props.imgCounter} out of 4 images</span>
         {this.props.imgCounter === 4 &&
           <span>Upload complete! We are preparing your image...</span>
         }

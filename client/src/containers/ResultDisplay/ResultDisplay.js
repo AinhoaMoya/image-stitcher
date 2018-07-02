@@ -19,6 +19,7 @@ class ResultDisplay extends Component {
           <div>
             <PreviewUploads />
             <img className="mergedImg" src={this.props.mergedImg} alt="Merged result" />
+            <a href="/">Refresh</a>
           </div>
         }
       </div>
