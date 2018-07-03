@@ -19,7 +19,8 @@ class ResultDisplay extends Component {
           <div>
             <PreviewUploads />
             <img className="mergedImg" src={this.props.mergedImg} alt="Merged result" />
-            <a href="/">Refresh</a>
+            <a href="/">Refresh</a><br />
+            <a href={this.props.mergedImg} download="mergedImg.jpg">Download</a>
           </div>
         }
       </div>

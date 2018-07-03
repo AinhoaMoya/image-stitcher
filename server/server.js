@@ -4,6 +4,7 @@ const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const mergeImg = require('merge-img');
 const cloudinary = require('cloudinary');
+const imageDataURI = require('image-data-uri');
 
 const app = express();
 
@@ -37,7 +38,16 @@ app.post('/upload', (req, res) => {
                 if (error) {
                     console.log(error)
                 } else {
-                    res.json({imgUrl: result.url})
+                    imageDataURI.encodeFromURL(result.url)
+                      .then((uri) => {
+                        console.log(uri);
+                        res.json({imgUrl: uri})
+
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                      })
+
                 }
             }
         );
