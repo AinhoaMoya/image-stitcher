@@ -71,7 +71,7 @@ class FileDrop extends Component {
       getPreviewImages(files, props).then((images) => {
         setTimeout(function(){
           images.map((image) => {
-            props.imageActions.addImages(image);
+            props.imageActions.addImage(image);
           })
         }, 1000);
       })

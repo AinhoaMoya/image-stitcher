@@ -1,6 +1,2 @@
 export const ADD_IMAGE = 'ADD_IMAGE';
-export const INCREASE_COUNTER = 'INCREASE_COUNTER';
-export const DELETE_IMAGE = 'DELETE_IMAGE';
-export const DELETE_ALL = 'DELETE_ALL';
-export const TOGGLE_STATUS = 'TOGGLE_STATUS';
 export const SET_MERGEDIMG = 'SET_MERGEDIMG';
