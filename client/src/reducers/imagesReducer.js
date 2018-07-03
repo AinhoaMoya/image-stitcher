@@ -3,8 +3,6 @@ import { ADD_IMAGE, SET_MERGEDIMG } from '../actions/actionTypes';
 
 export default function images(state = initialState, action) {
 
-    let updatedState;
-
     switch (action.type) {
 
         case ADD_IMAGE:
