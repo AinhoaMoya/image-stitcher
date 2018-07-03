@@ -1,5 +1,5 @@
 import initialState from './initialState';
-import { ADD_IMAGE, INCREASE_COUNTER, DELETE_ALL, SET_MERGEDIMG, TOGGLE_STATUS } from '../actions/actionTypes';
+import { ADD_IMAGE, SET_MERGEDIMG } from '../actions/actionTypes';
 
 export default function images(state = initialState, action) {
 
@@ -10,34 +10,20 @@ export default function images(state = initialState, action) {
         case ADD_IMAGE:
             return {
               images: [...state.images, action.image],
-              imgCounter: state.imgCounter + 1
+              imgCounter: state.imgCounter + 1,
+              isReady: state.isReady,
+              mergedImg: state.mergedImg
             }
 
-        case INCREASE_COUNTER:
-            updatedState = Object.assign({}, state)
-            updatedState.imgCounter = updatedState.imgCounter + action.amount;
-            return updatedState;
-
-        case DELETE_ALL:
-            updatedState = Object.assign({}, state)
-            updatedState.images = []
-            updatedState.imgCounter = 0
-            return updatedState;
-
-
         case SET_MERGEDIMG:
-            updatedState = Object.assign({}, state)
-            updatedState.mergedImg = action.imgUrl;
-            updatedState.isReady = true;
-            return updatedState;
-
-        case TOGGLE_STATUS:
-            updatedState = Object.assign({}, state)
-            updatedState.isReady = !updatedState.isReady
-            return updatedState;
+            return {
+                images: state.images,
+                imgCounter: state.imgCounter,
+                isReady: true,
+                mergedImg: action.imgUrl
+            }
 
         default:
             return state;
-
     }
 }
