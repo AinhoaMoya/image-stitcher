@@ -20,7 +20,6 @@ function getPreviewImages(images, props) {
           };
       })(image);
 
-      // Read in the image file as a data URL.
       reader.readAsDataURL(image);
     }
     resolve(previewImages);

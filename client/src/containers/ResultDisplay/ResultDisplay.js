@@ -11,6 +11,7 @@ function mapStateToProps(state) {
   };
 }
 
+// BUG Download link not working (Network failure): the problem might be the size of the image
 class ResultDisplay extends Component {
   render() {
     return (
@@ -19,7 +20,8 @@ class ResultDisplay extends Component {
           <div>
             <PreviewUploads />
             <img className="mergedImg" src={this.props.mergedImg} alt="Merged result" />
-            <a href="/">Refresh</a><br />
+            <a href="/">Refresh</a>
+            <span>or</span>
             <a href={this.props.mergedImg} download="mergedImg.jpg">Download</a>
           </div>
         }

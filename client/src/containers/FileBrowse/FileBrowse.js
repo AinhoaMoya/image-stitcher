@@ -24,6 +24,7 @@ function mapDispatchToProps(dispatch) {
 
 class FileBrowse extends Component {
 
+// getDerivedStateFromProps requires the component to be initialised with state
   constructor(props) {
    super(props)
    this.state = {
@@ -34,6 +35,7 @@ class FileBrowse extends Component {
    };
  }
 
+// getDerivedStateFromProps will re-render its component as props updates
   static getDerivedStateFromProps(nextProps, prevState){
     let images = nextProps.images;
     if (nextProps.imgCounter === 4) {
@@ -59,7 +61,7 @@ class FileBrowse extends Component {
     }
     return nextProps;
   }
-
+  // TODO: REFACTOR DUPLICATED CODE
   inputHandler(e) {
 
     let images = e.target.files;

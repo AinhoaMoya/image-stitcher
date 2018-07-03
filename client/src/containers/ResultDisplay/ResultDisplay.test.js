@@ -8,7 +8,7 @@ import * as actions from '../../actions/imageActions'
 
 
 Enzyme.configure({ adapter: new Adapter() });
-
+// TODO: ADD TESTS FOR EACH COMPONENT
 describe('<ResultDisplay>', () => {
   it('renders the merged image for download', () => {
     let store = configureStore();

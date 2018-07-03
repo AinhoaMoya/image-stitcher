@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const mergeImg = require('merge-img');
-const cloudinary = require('cloudinary');
 const imageDataURI = require('image-data-uri');
 
 const app = express();
@@ -19,6 +18,7 @@ app.use(fileUpload());
 app.post('/upload', (req, res) => {
 
     let keys = Object.keys(req.files);
+    // This array will hold the images to be merged
     let images = [];
 
     keys.map((key) => {
@@ -26,32 +26,19 @@ app.post('/upload', (req, res) => {
         images.push(imgObj);
     });
 
+    //  Merge images, then write result on disk...
+    //  then encode image from file and send image uri back to client.
     mergeImg(images)
     .then((img) => {
+        //TODO Probably image does not need to be written on disk at all, find alternative
         img.write('result.jpg', () => console.log('Image has been successfully merged'));
-
-        cloudinary.v2.uploader.unsigned_upload(
-            "result.jpg",
-            "nwaybmkn",
-            { cloud_name: "dqrlyqzr2" },
-            function(error, result) {
-                if (error) {
-                    console.log(error)
-                } else {
-                    imageDataURI.encodeFromURL(result.url)
-                      .then((uri) => {
-                        console.log(uri);
-                        res.json({imgUrl: uri})
-
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                      })
-
-                }
-            }
-        );
-
+        imageDataURI.encodeFromFile('./result.jpg')
+          .then((uri) => {
+            res.json({imgUrl: uri})
+          })
+          .catch((err) => {
+            console.log(err);
+          })
     })
     .catch((err) => {
         console.log(err);
