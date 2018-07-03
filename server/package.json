@@ -4,7 +4,6 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"
   },
   "keywords": [],
@@ -16,9 +15,10 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "express-fileupload": "^0.4.0",
-    "merge-img": "^2.1.2"
+    "image-data-uri": "^1.1.1",
+    "merge-img": "^2.1.2",
   },
   "devDependencies": {
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.17.5",
   }
 }
