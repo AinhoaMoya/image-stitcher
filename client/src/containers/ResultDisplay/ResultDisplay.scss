@@ -1,0 +1,18 @@
+.resultDisplay {
+  text-align: center;
+  .mergedImg {
+    margin: 50px auto;
+    width: 500px;
+    position: relative;
+    display: block;
+  }
+  a {
+    font-family: 'Source Code Pro', monospace;
+    border-bottom: 1px solid #1805e6;
+    color: #1805e6;
+    padding-bottom: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 20px;
+  }
+}
