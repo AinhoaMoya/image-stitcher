@@ -2,15 +2,18 @@
   text-align: center;
   .mergedImg {
     margin: 50px auto;
-    width: 500px;
+    width: 450px;
     position: relative;
     display: block;
   }
+  span {
+    margin: 0 20px;
+  }
   a {
     font-family: 'Source Code Pro', monospace;
-    border-bottom: 1px solid #1805e6;
+    border: 1px solid #1805e6;
     color: #1805e6;
-    padding-bottom: 5px;
+    padding: 5px;
     cursor: pointer;
     text-decoration: none;
     margin-top: 20px;

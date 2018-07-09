@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './ResultDisplay.css';
 import PreviewUploads from '../PreviewUploads/PreviewUploads';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
 function mapStateToProps(state) {
   state = state.images;
@@ -60,7 +59,7 @@ class ResultDisplay extends Component {
           <div>
             <PreviewUploads />
             <img className="mergedImg" src={this.props.mergedImg} alt="Merged result" />
-            <a href="/">Refresh</a>
+            <a href="/">Try it again</a>
             <span>or</span>
             {this.state.downloadReady &&
             <a href={this.state.downloadImage} download="mergedImg.jpg">Download</a>
