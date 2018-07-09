@@ -1,31 +1,19 @@
-function getPreviewImages(images, props) {
-
-  return new Promise((resolve) => {
-
-    let previewImages = [];
-
-    for (var i = 0; i < images.length; i++) {
-      let image = images[i];
-
-      const reader = new FileReader();
-
-      reader.onload = (function (currentImg) {
-          return function (e) {
-            let previewImage = {
-              imgName: image.name,
-              imgURI: e.target.result,
-              imgObject: image
-            }
-            previewImages.push(previewImage);
-          };
-      })(image);
-
-      reader.readAsDataURL(image);
-    }
-    resolve(previewImages);
-
+async function getPreviewImages(inputFile) {
+  const fileReader = new FileReader();
+  return new Promise((resolve, reject) => {
+    fileReader.onerror = () => {
+      fileReader.abort();
+      reject(new DOMException("Problem parsing input file"));
+    };
+    fileReader.onload = () => {
+      resolve({
+        imgName: inputFile.name,
+        imgURI: fileReader.result,
+        imgObject: inputFile
+      });
+    };
+    fileReader.readAsDataURL(inputFile)
   })
-
 }
 
 export default getPreviewImages;

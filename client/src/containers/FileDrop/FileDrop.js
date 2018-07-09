@@ -62,19 +62,17 @@ class FileDrop extends Component {
     return nextProps;
   }
 
-  dropHandler(files) {
-    if (files.length > 4 || files.length > (4 - this.props.imgCounter)) {
+  dropHandler(images) {
+    if (images.length > 4 || images.length > (4 - this.props.imgCounter)) {
       alert('There is a 4 images limit!')
     } else {
-      let props = this.props;
-      // TODO: REMOVE SETTIMEOUT HACK AND FIX
-      getPreviewImages(files, props).then((images) => {
-        setTimeout(function(){
-          images.map((image) => {
-            props.imageActions.addImage(image);
-          })
-        }, 1000);
-      })
+
+      Array.from(images).forEach(async (image) => {
+        const imageContents = await getPreviewImages(image);
+        this.props.imageActions.addImage(imageContents);
+        console.log(imageContents);
+       });
+
     }
   }
 

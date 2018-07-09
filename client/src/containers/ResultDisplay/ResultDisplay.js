@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './ResultDisplay.css';
 import PreviewUploads from '../PreviewUploads/PreviewUploads';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 function mapStateToProps(state) {
   state = state.images;
@@ -11,8 +12,47 @@ function mapStateToProps(state) {
   };
 }
 
-// BUG Download link not working (Network failure): the problem might be the size of the image
 class ResultDisplay extends Component {
+  constructor(props) {
+   super(props)
+   this.state = {
+     isReady: props.isReady,
+     mergedImg: props.mergedImg,
+     downloadReady: false,
+     downloadImage: null
+   };
+ }
+
+
+ static getDerivedStateFromProps(nextProps, prevState) {
+   let mergedImg = nextProps.mergedImg;
+
+   if (nextProps.isReady) {
+
+     var byteString = atob(mergedImg.split(',')[1]);
+     var mimeString = mergedImg.split(',')[0].split(':')[1].split(';')[0];
+     var arrayBuffer = new ArrayBuffer(byteString.length);
+     var _ia = new Uint8Array(arrayBuffer);
+     for (var i = 0; i < byteString.length; i++) {
+         _ia[i] = byteString.charCodeAt(i);
+     }
+
+     var dataView = new DataView(arrayBuffer);
+     var blob = new Blob([dataView], { type: mimeString });
+
+
+     let url = URL.createObjectURL(blob);
+
+     return {
+       downloadImage: url,
+       downloadReady : true
+     }
+   } else {
+     return null;
+   }
+ }
+
+
   render() {
     return (
       <div className="resultDisplay">
@@ -22,7 +62,9 @@ class ResultDisplay extends Component {
             <img className="mergedImg" src={this.props.mergedImg} alt="Merged result" />
             <a href="/">Refresh</a>
             <span>or</span>
-            <a href={this.props.mergedImg} download="mergedImg.jpg">Download</a>
+            {this.state.downloadReady &&
+            <a href={this.state.downloadImage} download="mergedImg.jpg">Download</a>
+            }
           </div>
         }
       </div>
