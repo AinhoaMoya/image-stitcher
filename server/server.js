@@ -16,21 +16,19 @@ app.use(cors());
 app.use(fileUpload());
 
 app.post('/upload', (req, res) => {
-
     let keys = Object.keys(req.files);
-    // This array will hold the images to be merged
     let images = [];
-
     keys.map((key) => {
         let imgObj = req.files[key].data;
         images.push(imgObj);
     });
 
-    //  Merge images, then write result on disk...
-    //  then encode image from file and send image uri back to client.
+
+
+    //  Merge images, then write result on disk ...
+    //  ... then encode image from file and send uri data back to client.
     mergeImg(images)
     .then((img) => {
-        //TODO Probably image does not need to be written on disk at all, find alternative
         img.write('result.jpg', () => console.log('Image has been successfully merged'));
         imageDataURI.encodeFromFile('./result.jpg')
           .then((uri) => {

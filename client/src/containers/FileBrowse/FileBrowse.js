@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import './FileBrowse.css';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import * as imageActions from '../../actions/imageActions';
 import { bindActionCreators } from 'redux';
 import getPreviewImages from '../../helpers/getPreviewImages';
+import sendImages from '../../helpers/sendImages';
 
 function mapStateToProps(state) {
   state = state.images;
@@ -16,6 +16,7 @@ function mapStateToProps(state) {
   };
 }
 
+// Makes Redux actions available to component, which is necessary to update Redux's store
 function mapDispatchToProps(dispatch) {
   return {
     imageActions: bindActionCreators(imageActions, dispatch)
@@ -36,33 +37,18 @@ class FileBrowse extends Component {
  }
 
 // getDerivedStateFromProps will re-render its component as props updates
-  static getDerivedStateFromProps(nextProps, prevState){
+  static getDerivedStateFromProps(nextProps, prevState) {
     let images = nextProps.images;
     if (nextProps.imgCounter === 4) {
-      let formData = new FormData();
-
-      for (var i = 0; i < images.length; i++) {
-        let image = images[i].imgObject;
-        formData.append(`browsedImage${i}`, image)
-      }
-
-      axios.post('/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      .then((response) => {
-        console.log('Successfully uploaded image to server!');
-        nextProps.imageActions.setMergedImg(response.data.imgUrl);
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+          sendImages(images)
+          .then((result) => {
+              nextProps.imageActions.setMergedImg(result);
+          })
     }
     return nextProps;
   }
-  // TODO: REFACTOR DUPLICATED CODE
-  inputHandler(e) {
+
+  async inputHandler(e) {
 
     let images = e.target.files;
 
@@ -70,15 +56,12 @@ class FileBrowse extends Component {
       e.target.value = null;
       alert('There is a 4 images limit!')
     } else {
-      let props = this.props;
-      // TODO: REMOVE SETTIMEOUT HACK AND FIX
-      getPreviewImages(images, props).then((images) => {
-        setTimeout(function(){
-          images.map((image) => {
-            props.imageActions.addImage(image);
-          })
-        }, 1000);
-      })
+
+      Array.from(images).forEach(async (image) => {
+        const imageContents = await getPreviewImages(image);
+        this.props.imageActions.addImage(imageContents);
+       });
+
     }
   }
 

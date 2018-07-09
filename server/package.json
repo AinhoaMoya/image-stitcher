@@ -16,9 +16,9 @@
     "express": "^4.16.3",
     "express-fileupload": "^0.4.0",
     "image-data-uri": "^1.1.1",
-    "merge-img": "^2.1.2",
+    "merge-img": "^2.1.2"
   },
   "devDependencies": {
-    "nodemon": "^1.17.5",
+    "nodemon": "^1.17.5"
   }
 }
